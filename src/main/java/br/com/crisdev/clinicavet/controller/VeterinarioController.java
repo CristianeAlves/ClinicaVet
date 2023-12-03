@@ -1,11 +1,11 @@
 package br.com.crisdev.clinicavet.controller;
 
-import br.com.crisdev.clinicavet.domain.veterinario.DadosCadastroVeterinario;
-import br.com.crisdev.clinicavet.domain.veterinario.DadosDetalhamentoVeterinario;
-import br.com.crisdev.clinicavet.domain.veterinario.Veterinario;
-import br.com.crisdev.clinicavet.domain.veterinario.VeterinarioRepository;
+import br.com.crisdev.clinicavet.domain.veterinario.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +31,11 @@ public class VeterinarioController {
     public ResponseEntity detalhar(@PathVariable Long id) {
         var veterinario = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoVeterinario(veterinario));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<DadosListagemVeterinarios>> listar(@PageableDefault(size = 10, sort = {"nome"})Pageable paginacao) {
+        var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemVeterinarios::new);
+        return ResponseEntity.ok(page);
     }
 }
