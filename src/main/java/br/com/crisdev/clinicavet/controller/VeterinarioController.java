@@ -46,4 +46,12 @@ public class VeterinarioController {
         veterinario.atualizarInformacoes(dados);
         return ResponseEntity.ok(new DadosDetalhamentoVeterinario(veterinario));
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id) {
+        var veterinario = repository.getReferenceById(id);
+        veterinario.excluir();
+        return ResponseEntity.noContent().build();
+    }
 }
