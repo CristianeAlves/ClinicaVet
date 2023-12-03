@@ -38,4 +38,16 @@ public class Veterinario {
         this.endereco = new Endereco(dados.endereco());
         this.ativo = true;
     }
+
+    public void atualizarInformacoes(DadosAtualizacaoVeterinario dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.telefone() != null) {
+            this.telefone = dados.telefone();
+        }
+        if (dados.endereco() != null) {
+            endereco.atualizaInformacoes(dados.endereco());
+        }
+    }
 }

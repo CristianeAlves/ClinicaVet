@@ -38,4 +38,12 @@ public class VeterinarioController {
         var page = repository.findAllByAtivoTrue(paginacao).map(DadosListagemVeterinarios::new);
         return ResponseEntity.ok(page);
     }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizar(@RequestBody DadosAtualizacaoVeterinario dados) {
+        var veterinario = repository.getReferenceById(dados.id());
+        veterinario.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoVeterinario(veterinario));
+    }
 }
